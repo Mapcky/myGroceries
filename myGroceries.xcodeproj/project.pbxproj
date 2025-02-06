@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		30F613ED2D54E97A0043FD88 /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = 30F613EC2D54E97A0043FD88 /* JWTDecode */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		30ABA71C2D5298AC00F5A5EE /* myGroceries.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = myGroceries.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30F613ED2D54E97A0043FD88 /* JWTDecode in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = myGroceries;
 			packageProductDependencies = (
+				30F613EC2D54E97A0043FD88 /* JWTDecode */,
 			);
 			productName = myGroceries;
 			productReference = 30ABA71C2D5298AC00F5A5EE /* myGroceries.app */;
@@ -94,6 +100,9 @@
 			);
 			mainGroup = 30ABA7132D5298AC00F5A5EE;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				30F613EB2D54E97A0043FD88 /* XCRemoteSwiftPackageReference "JWTDecode" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 30ABA71D2D5298AC00F5A5EE /* Products */;
 			projectDirPath = "";
@@ -324,6 +333,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		30F613EB2D54E97A0043FD88 /* XCRemoteSwiftPackageReference "JWTDecode" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/auth0/JWTDecode.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		30F613EC2D54E97A0043FD88 /* JWTDecode */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 30F613EB2D54E97A0043FD88 /* XCRemoteSwiftPackageReference "JWTDecode" */;
+			productName = JWTDecode;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 30ABA7142D5298AC00F5A5EE /* Project object */;
 }
