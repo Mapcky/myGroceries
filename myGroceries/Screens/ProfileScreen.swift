@@ -8,8 +8,22 @@
 import SwiftUI
 
 struct ProfileScreen: View {
+    // MARK: - PROPERTIES
+    @AppStorage("userId") private var userId: String?
+    
+    // MARK: - FUNCTIONS
+    
+    
+    // MARK: - BODY
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Text("Profile")
+            
+            Button("SignOut") {
+                let _ = Keychain<String>.delete("jwttoken")
+                userId = nil
+            }
+        }
     }
 }
 

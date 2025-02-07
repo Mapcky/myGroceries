@@ -42,7 +42,7 @@ extension AppScreen {
         case .cart:
             Text("Cart")
         case .profile:
-            Text("Profile")
+            ProfileScreen()
         }
     }
     
@@ -59,6 +59,7 @@ struct HomeScreen: View {
                     .tabItem {screen.label}
             }
         }
+        .requiresAuthentication()
     }
 }
 

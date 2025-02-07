@@ -60,10 +60,6 @@ struct LoginScreen: View {
             }.disabled(!isFormValid)
             Text(message)
         }
-        .navigationDestination(item: $userId, destination: {
-            _ in Text("HomeScreen")
-            
-        })
         .navigationTitle("Login")
     }
 }
