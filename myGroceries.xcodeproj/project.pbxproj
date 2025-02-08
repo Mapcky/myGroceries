@@ -15,7 +15,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		30ABA71E2D5298AC00F5A5EE /* myGroceries */ = {
+		30C4C72A2D56392B007DB575 /* myGroceries */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = myGroceries;
 			sourceTree = "<group>";
@@ -37,7 +37,7 @@
 		30ABA7132D5298AC00F5A5EE = {
 			isa = PBXGroup;
 			children = (
-				30ABA71E2D5298AC00F5A5EE /* myGroceries */,
+				30C4C72A2D56392B007DB575 /* myGroceries */,
 				30ABA71D2D5298AC00F5A5EE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -66,7 +66,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				30ABA71E2D5298AC00F5A5EE /* myGroceries */,
+				30C4C72A2D56392B007DB575 /* myGroceries */,
 			);
 			name = myGroceries;
 			packageProductDependencies = (

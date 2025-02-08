@@ -11,10 +11,13 @@ import SwiftUI
 struct myGroceriesApp: App {
     // MARK: - PROPERTIES
 
+    @State private var productStore = ProductStore(httpClient: HTTPClient())
+    
     var body: some Scene {
         WindowGroup {
                 HomeScreen()
                 .environment(\.authenticationController, .development)
+                .environment(productStore)
         }
     }
 }

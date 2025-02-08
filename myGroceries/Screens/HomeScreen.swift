@@ -36,7 +36,7 @@ extension AppScreen {
     var destination: some View {
         switch self {
         case .home:
-            Text("Home")
+            ProductListScreen()
         case .myProducts:
             Text("My Products")
         case .cart:
