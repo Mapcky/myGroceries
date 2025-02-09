@@ -22,7 +22,7 @@ struct LoginResponse: Codable {
 
 struct Product: Codable, Identifiable {
     
-    var id: Int
+    var id: Int?
     let description: String
     let name: String
     let price: Double

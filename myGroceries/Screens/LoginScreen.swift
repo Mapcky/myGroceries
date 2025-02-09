@@ -46,7 +46,7 @@ struct LoginScreen: View {
     }
     
     private var isFormValid: Bool {
-        !username.isEmptyOnWhiteSpaces && !password.isEmptyOnWhiteSpaces
+        !username.isEmptyOrWhiteSpaces && !password.isEmptyOrWhiteSpaces
     }
     var body: some View {
         Form {
