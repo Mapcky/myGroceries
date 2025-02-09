@@ -23,4 +23,15 @@ class ProductStore {
         products = try await httpClient.load(resource)
     }
     
+    func saveProdut(_ product: Product) async throws {
+        let resource = Resource(url: Constants.Urls.createProducts, method: .post(product.encode()), modelType: CreateProductResponse.self)
+        
+        let response = try await httpClient.load(resource)
+        if let product = response.product, response.success {
+            
+        } else {
+            throw ProductSaveError.operationFailed(response.message ?? "")
+        }
+    }
+    
 }

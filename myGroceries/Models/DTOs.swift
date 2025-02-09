@@ -35,6 +35,16 @@ struct Product: Codable, Identifiable {
         case userId = "user_id"
     }
     
+    func encode() -> Data? {
+        try? JSONEncoder().encode(self)
+    }
+    
+}
+
+struct CreateProductResponse: Codable {
+    let success: Bool
+    let product: Product?
+    let message: String?
 }
 
 struct ErrorResponse: Codable {
