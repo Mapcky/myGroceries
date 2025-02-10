@@ -47,6 +47,12 @@ struct CreateProductResponse: Codable {
     let message: String?
 }
 
+struct UploadDataResponse: Codable {
+    let success: Bool
+    let message: String?
+    let downloadURL: URL?
+}
+
 struct ErrorResponse: Codable {
     let message: String?
 }
