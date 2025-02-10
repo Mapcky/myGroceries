@@ -13,7 +13,6 @@ private struct AuthenticationEnvironmentKey: EnvironmentKey {
 }
 
 extension EnvironmentValues {
-    
     var authenticationController: AuthenticationController {
         get { self[AuthenticationEnvironmentKey.self] }
         set { self[AuthenticationEnvironmentKey.self] = newValue }

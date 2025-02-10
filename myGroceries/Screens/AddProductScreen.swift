@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct AddProductScreen: View {
+
     // MARK: - PROPERTIES
     
     @State private var name: String = ""
@@ -19,6 +21,9 @@ struct AddProductScreen: View {
     @Environment(ProductStore.self) private var productStore
     @AppStorage("userId") private var userId: Int?
     @Environment(\.dismiss) private var dismiss
+    
+    @State private var selectedPhotoItem: PhotosPickerItem?
+    @State private var isCameraSelected: Bool = false
     // MARK: - FUNCTIONS
     
     private func saveProduct() async {
@@ -51,7 +56,26 @@ struct AddProductScreen: View {
             TextEditor(text: $description)
                 .frame(height: 100)
             TextField("Enter price", value: $price, format: .number)
+            
+            HStack {
+                Button(action: {
+                    
+                    if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                        isCameraSelected = true
+                    } else {
+                        print("Camera is not supported on this device")
+                    }
+                    
+                }, label: {
+                    Image(systemName: "camera.fill")
+                })
+                
+                PhotosPicker(selection: $selectedPhotoItem, matching: .images, photoLibrary: .shared()) {
+                    Image(systemName: "photo.on.rectangle")
+                }
+            }.font(.title)
         }
+        
         .toolbar(content: {
             ToolbarItem(placement: .topBarTrailing, content: {
                 Button("Save") {
