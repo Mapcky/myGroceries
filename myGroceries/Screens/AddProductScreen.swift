@@ -9,7 +9,7 @@ import SwiftUI
 import PhotosUI
 
 struct AddProductScreen: View {
-
+    
     // MARK: - PROPERTIES
     
     @State private var name: String = ""
@@ -24,6 +24,7 @@ struct AddProductScreen: View {
     
     @State private var selectedPhotoItem: PhotosPickerItem?
     @State private var isCameraSelected: Bool = false
+    @State private var uiImage: UIImage?
     // MARK: - FUNCTIONS
     
     private func saveProduct() async {
@@ -57,24 +58,46 @@ struct AddProductScreen: View {
                 .frame(height: 100)
             TextField("Enter price", value: $price, format: .number)
             
-            HStack {
-                Button(action: {
-                    
-                    if UIImagePickerController.isSourceTypeAvailable(.camera) {
-                        isCameraSelected = true
-                    } else {
-                        print("Camera is not supported on this device")
-                    }
-                    
-                }, label: {
-                    Image(systemName: "camera.fill")
-                })
+            Button(action: {
                 
-                PhotosPicker(selection: $selectedPhotoItem, matching: .images, photoLibrary: .shared()) {
-                    Image(systemName: "photo.on.rectangle")
+                if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                    isCameraSelected = true
+                } else {
+                    print("Camera is not supported on this device")
                 }
+                
+            }, label: {
+                Image(systemName: "camera.fill")
+            }).font(.title)
+            
+            
+            PhotosPicker(selection: $selectedPhotoItem, matching: .images, photoLibrary: .shared()) {
+                Image(systemName: "photo.on.rectangle")
             }.font(.title)
+            if let uiImage {
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+            }
+            
         }
+        .onChange(of: selectedPhotoItem, {
+            selectedPhotoItem?.loadTransferable(type: Data.self, completionHandler: { result in
+                switch result {
+                    
+                case .success(let data):
+                    if let data {
+                        uiImage = UIImage(data: data)
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            })
+        })
+        
+        .sheet(isPresented: $isCameraSelected, content: {
+            ImagePicker(image: $uiImage, sourceType: .camera)
+        })
         
         .toolbar(content: {
             ToolbarItem(placement: .topBarTrailing, content: {
