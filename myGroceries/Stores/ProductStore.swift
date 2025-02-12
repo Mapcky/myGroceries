@@ -41,4 +41,26 @@ class ProductStore {
         }
     }
     
+    func deleteProduct(_ product: Product) async throws {
+        
+        guard let productId = product.id else {
+            throw ProductError.productNotFound
+        }
+        
+        let resource = Resource(url: Constants.Urls.deleteProducts(productId), method: .delete, modelType: DeleteProductResponse.self)
+        
+        let response = try await httpClient.load(resource)
+        
+        if response.success {
+            if let indexDelete = myProducts.firstIndex(where: { $0.id == productId }) {
+                myProducts.remove(at: indexDelete)
+            } else {
+                throw ProductError.productNotFound
+            }
+        } else {
+            throw ProductError.operationFailed(response.message ?? "")
+        }
+    }
+    
+    
 }

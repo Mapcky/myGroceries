@@ -19,5 +19,9 @@ struct Constants {
         static func myProducts(_ userId: Int) -> URL {
             URL(string: "http://localhost:8080/api/products/user/\(userId)")!
         }
+        
+        static func deleteProducts(_ productId: Int) -> URL {
+            URL(string: "http://localhost:8080/api/products/\(productId)")!
+        }
     }
 }
