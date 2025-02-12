@@ -51,6 +51,11 @@ struct UploadDataResponse: Codable {
     let success: Bool
     let message: String?
     let downloadURL: URL?
+    
+    private enum CodingKeys: String, CodingKey {
+        case message, success
+        case downloadURL = "downloadUrl"
+    }
 }
 
 struct ErrorResponse: Codable {
