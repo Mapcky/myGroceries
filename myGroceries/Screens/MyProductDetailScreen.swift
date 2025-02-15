@@ -9,9 +9,10 @@ import SwiftUI
 
 struct MyProductDetailScreen: View {
     // MARK: - PROPERTIES
+    let product: Product
     @Environment(ProductStore.self) private var productStore
     @Environment(\.dismiss) private var dismiss
-    let product: Product
+    @State private var isPresented: Bool = false
     
     // MARK: - FUNCTIONS
     
@@ -61,6 +62,18 @@ struct MyProductDetailScreen: View {
             
             
         }).padding()
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing, content: {
+                    Button("Update") {
+                        isPresented = true
+                    }
+                })
+            }
+            .sheet(isPresented: $isPresented, content: {
+                NavigationStack {
+                    AddProductScreen(product: product)
+                }
+            })
     }
 }
 

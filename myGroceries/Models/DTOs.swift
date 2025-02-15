@@ -63,6 +63,12 @@ struct DeleteProductResponse: Codable {
     let message: String?
 }
 
+struct UpdateProductResponse: Codable {
+    let success: Bool
+    let message: String?
+    let product: Product?
+}
+
 struct ErrorResponse: Codable {
     let message: String?
 }
