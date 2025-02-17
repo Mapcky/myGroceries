@@ -12,6 +12,7 @@ struct MyProductListScreen: View {
     @State private var isPresented: Bool = false
     @Environment(ProductStore.self) private var productStore
     @AppStorage("userId") private var userId: Int?
+    @State private var message: String?
     
     // MARK: - FUNCTIONS
     private func loadMyProducts() async {
@@ -21,7 +22,7 @@ struct MyProductListScreen: View {
             }
             try await productStore.loadMyProducts(by: userId)
         } catch {
-            print(error.localizedDescription)
+            message = error.localizedDescription
         }
     }
     
@@ -50,7 +51,10 @@ struct MyProductListScreen: View {
             }
         })
         .overlay(alignment: .center) {
-            if productStore.myProducts.isEmpty {
+            
+            if let message {
+                Text("Failed to process request. Please make sure to sign in.")
+            } else if productStore.myProducts.isEmpty {
                 ContentUnavailableView("No Products Available.", systemImage: "star.fill")
             }
         }
