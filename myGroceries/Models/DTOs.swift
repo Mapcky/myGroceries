@@ -72,3 +72,26 @@ struct UpdateProductResponse: Codable {
 struct ErrorResponse: Codable {
     let message: String?
 }
+
+struct Cart: Codable {
+    let id: Int?
+    let userId: Int
+    var cartItems: [CartItem] = []
+    
+    private enum CodingKeys: String, CodingKey {
+        case id, cartItems
+        case userId = "user_id"
+    }
+}
+
+struct CartItem: Codable, Identifiable {
+    let id: Int?
+    let product: Product
+    var quantity: Int = 1
+}
+
+
+struct CartItemResponse: Codable {
+    let message: String?
+    let success: Bool
+}
