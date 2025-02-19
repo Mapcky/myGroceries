@@ -74,7 +74,7 @@ struct ErrorResponse: Codable {
 }
 
 struct Cart: Codable {
-    let id: Int?
+    var id: Int?
     let userId: Int
     var cartItems: [CartItem] = []
     
@@ -94,4 +94,11 @@ struct CartItem: Codable, Identifiable {
 struct CartItemResponse: Codable {
     let message: String?
     let success: Bool
+    let cartItem: CartItem?
 }
+
+struct CartResponse: Codable {
+    let success: Bool
+    let message: String?
+    let cart: Cart?
+    }

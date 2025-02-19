@@ -36,23 +36,25 @@ extension AppScreen {
     @ViewBuilder
     var destination: some View {
         switch self {
-            case .home:
+        case .home:
+            NavigationStack {
                 ProductListScreen()
-            case .myProducts:
-                NavigationStack {
-                    MyProductListScreen()
-                        .requiresAuthentication()
-                }
-            case .cart:
-                NavigationStack {
-                    Text("Cart")
-                        .requiresAuthentication()
-                }
-            case .profile:
-                NavigationStack {
-                    ProfileScreen()
-                        .requiresAuthentication()
-                }
+            }
+        case .myProducts:
+            NavigationStack {
+                MyProductListScreen()
+                    .requiresAuthentication()
+            }
+        case .cart:
+            NavigationStack {
+                Text("Cart")
+                    .requiresAuthentication()
+            }
+        case .profile:
+            NavigationStack {
+                ProfileScreen()
+                    .requiresAuthentication()
+            }
         }
     }
     
@@ -76,4 +78,5 @@ struct HomeScreen: View {
 #Preview {
     HomeScreen()
         .environment(ProductStore(httpClient: .development))
+        .environment(CartStore(httpClient: .development))
 }
