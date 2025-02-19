@@ -30,6 +30,24 @@ class CartStore {
         }) ?? 0.0
     }
     
+    func emptyCart() {
+        cart?.cartItems = []
+    }
+    
+    func deleteCartItem(cartItemId: Int) async throws {
+        let resource = Resource(url: Constants.Urls.deleteCartItem(cartItemId), method: .delete, modelType: DeleteCartItemResponse.self)
+        
+        let response = try await httpClient.load(resource)
+        
+        if response.success {
+            if let cart = cart {
+                self.cart?.cartItems = cart.cartItems.filter({ $0.id != cartItemId })
+            }
+        } else {
+            throw CartError.operationFailed(response.message ?? "")
+        }
+        
+    }
     
     func loadCart() async throws {
         let resource = Resource(url: Constants.Urls.loadCart, modelType: CartResponse.self)
@@ -42,6 +60,11 @@ class CartStore {
             throw CartError.operationFailed(response.message ?? "Operation Failed")
         }
     }
+    
+    func updateItemQuantity(productId: Int, quantity: Int) async throws {
+        try await addItemToCart(productId: productId, quantity: quantity)
+    }
+    
     
     func addItemToCart(productId: Int, quantity: Int) async throws {
         let body = ["productId" : productId, "quantity" : quantity]

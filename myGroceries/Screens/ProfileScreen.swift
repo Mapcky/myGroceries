@@ -10,7 +10,7 @@ import SwiftUI
 struct ProfileScreen: View {
     // MARK: - PROPERTIES
     @AppStorage("userId") private var userId: String?
-    
+    @Environment(CartStore.self) private var cartStore
     // MARK: - FUNCTIONS
     
     
@@ -22,6 +22,7 @@ struct ProfileScreen: View {
             Button("SignOut") {
                 let _ = Keychain<String>.delete("jwttoken")
                 userId = nil
+                cartStore.emptyCart()
             }
         }
     }
@@ -29,4 +30,5 @@ struct ProfileScreen: View {
 
 #Preview {
     ProfileScreen()
+        .environment(CartStore(httpClient: .development))
 }

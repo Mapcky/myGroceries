@@ -102,3 +102,8 @@ struct CartResponse: Codable {
     let message: String?
     let cart: Cart?
     }
+
+struct DeleteCartItemResponse: Codable {
+    let message: String?
+    let success: Bool
+}

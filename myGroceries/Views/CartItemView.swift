@@ -26,6 +26,8 @@ struct CartItemView: View {
                 Text(cartItem.product.name)
                     .font(.title3)
                 Text(cartItem.product.price, format: .currency(code: "USD"))
+                
+                CartItemQuantityView(cartItem: cartItem)
             }).frame(maxWidth: .infinity, alignment: .leading)
         }
     }
@@ -33,4 +35,5 @@ struct CartItemView: View {
 
 #Preview {
     CartItemView(cartItem: CartItem(id: 1, product: Product(description: "Big Table", name: "Table", price: 222, photoUrl: nil, userId: 1), quantity: 20))
+        .environment(CartStore(httpClient: .development))
 }

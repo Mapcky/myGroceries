@@ -30,5 +30,9 @@ struct Constants {
         static func updateProducts(_ productId: Int) -> URL {
             URL(string: "http://localhost:8080/api/products/\(productId)")!
         }
+        
+        static func deleteCartItem(_ cartItemId: Int) -> URL {
+            URL(string: "http://localhost:8080/api/cart/item/\(cartItemId)")!
+        }
     }
 }
