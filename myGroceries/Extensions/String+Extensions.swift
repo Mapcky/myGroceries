@@ -15,7 +15,7 @@ extension String {
     
     var isZipCode: Bool {
         // Adjust this regex for your ZIP code requirements (US format example here)
-        let zipCodeRegex = "^[0-9]{5}(-[0-9]{4})?$"
+        let zipCodeRegex = "^[0-9]{4}(-[0-9]{4})?$"
         return NSPredicate(format: "SELF MATCHES %@", zipCodeRegex).evaluate(with: self)
     }
 }

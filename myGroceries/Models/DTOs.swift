@@ -107,3 +107,28 @@ struct DeleteCartItemResponse: Codable {
     let message: String?
     let success: Bool
 }
+
+struct UserInfo: Codable, Equatable {
+    let firstName: String?
+    let lastName: String?
+    let street: String?
+    let city: String?
+    let state: String?
+    let zipCode: String?
+    let country: String?
+    
+    private enum CodingKeys: String, CodingKey {
+        case firstName = "first_name"
+        case lastName = "last_name"
+        case zipCode = "zip_code"
+        case street, city, state, country
+    }
+    
+    
+}
+
+struct UserInfoResponse: Codable {
+    let success: Bool
+    let message: String?
+    let userInfo: UserInfo?
+}

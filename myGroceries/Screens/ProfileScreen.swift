@@ -9,8 +9,9 @@ import SwiftUI
 
 struct ProfileScreen: View {
     // MARK: - PROPERTIES
-    @AppStorage("userId") private var userId: String?
+    @AppStorage("userId") private var userId: Int?
     @Environment(CartStore.self) private var cartStore
+    @Environment(UserStore.self) private var userStore
     
     @State private var firstName: String = ""
     @State private var lastName: String = ""
@@ -54,6 +55,14 @@ struct ProfileScreen: View {
     }
     
     private func updateUserInfo() async {
+        do {
+            let userInfo = UserInfo(firstName: firstName, lastName: lastName, street: street, city: city, state: state, zipCode: zipCode, country: country)
+            
+            try await userStore.updateUserInfo(userInfo: userInfo)
+            
+        } catch {
+            print(error.localizedDescription)
+        }
         
     }
     
@@ -82,7 +91,19 @@ struct ProfileScreen: View {
                 userId = nil
                 cartStore.emptyCart()
             }
-        }.toolbar {
+        }
+        .onChange(of: userStore.userInfo, initial: true, {
+            if let userInfo = userStore.userInfo {
+                firstName = userInfo.firstName ?? ""
+                lastName = userInfo.lastName ?? ""
+                street = userInfo.street ?? ""
+                city = userInfo.city ?? ""
+                state = userInfo.state ?? ""
+                zipCode = userInfo.zipCode ?? ""
+                country = userInfo.country ?? ""
+            }
+        })
+        .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Save") {
                     if validateForm() {
@@ -102,5 +123,6 @@ struct ProfileScreen: View {
     NavigationStack {
         ProfileScreen()
             .environment(CartStore(httpClient: .development))
+            .environment(UserStore(httpClient: .development))
     }
 }
