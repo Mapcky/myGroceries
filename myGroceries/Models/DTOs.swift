@@ -20,7 +20,7 @@ struct LoginResponse: Codable {
     let username: String?
 }
 
-struct Product: Codable, Identifiable {
+struct Product: Codable, Identifiable, Hashable {
     
     var id: Int?
     let description: String
@@ -82,6 +82,18 @@ struct Cart: Codable {
         case id, cartItems
         case userId = "user_id"
     }
+    
+    var total: Double {
+        cartItems.reduce(0.0, { total, cartItem in
+            total + (cartItem.product.price * Double(cartItem.quantity))
+        })
+    }
+    
+    var itemsCount: Int {
+        cartItems.reduce(0, { total, cartItem in
+            total + cartItem.quantity
+        })
+    }
 }
 
 struct CartItem: Codable, Identifiable {
@@ -124,6 +136,21 @@ struct UserInfo: Codable, Equatable {
         case street, city, state, country
     }
     
+    var fullName: String {
+        [firstName, lastName]
+            .compactMap { $0 }
+            .joined(separator: " ")
+    }
+    
+    var address: String {
+        [
+            street,
+            [city,state].compactMap { $0 }.joined(separator: " "),
+            zipCode,
+            country
+        ].compactMap { $0 }.joined(separator: " ")
+    }
+    
     
 }
 
@@ -131,4 +158,48 @@ struct UserInfoResponse: Codable {
     let success: Bool
     let message: String?
     let userInfo: UserInfo?
+}
+
+struct OrderItem: Codable, Hashable, Identifiable {
+    var id: Int?
+    let product: Product
+    var quantity: Int = 1
+    
+    init(from cartItem: CartItem) {
+        self.id = nil
+        self.product = cartItem.product
+        self.quantity = cartItem.quantity
+    }
+}
+
+struct Order: Codable, Hashable, Identifiable {
+    var id: Int?
+    let userId: Int
+    let total: Double
+    let items: [OrderItem]
+    
+    init(from cart: Cart) {
+        self.id = nil
+        self.userId = cart.userId
+        self.total = cart.total
+        self.items = cart.cartItems.map(OrderItem.init)
+    }
+    
+    private enum CodingKeys: String, CodingKey {
+        case id, total, items
+        case userId = "user_id"
+    }
+    
+    func toRequestBody() -> [String: Any] {
+        return [
+            "total": total,
+            "order_items": items.map { item in
+            [
+                "product_id": item.product.id,
+                "quantity": item.quantity
+            ]
+            }
+        ]
+    }
+    
 }

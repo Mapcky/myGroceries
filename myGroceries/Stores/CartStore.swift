@@ -17,7 +17,7 @@ class CartStore {
     init(httpClient: HTTPClient) {
         self.httpClient = httpClient
     }
-    
+    /*
     var itemsCount: Int {
         cart?.cartItems.reduce(0, { total, cartItem in
             total + cartItem.quantity
@@ -29,7 +29,7 @@ class CartStore {
             total + (cartItem.product.price * Double(cartItem.quantity))
         }) ?? 0.0
     }
-    
+    */
     func emptyCart() {
         cart?.cartItems = []
     }

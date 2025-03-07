@@ -11,6 +11,9 @@ struct CartScreen: View {
     // MARK: - PROPERTIES
     
     @Environment(CartStore.self) private var cartStore
+    @AppStorage("userId") private var userId: Int?
+    
+    @State private var proceedToCheckout: Bool = false
     
     // MARK: - BODY
     var body: some View {
@@ -19,16 +22,16 @@ struct CartScreen: View {
                 HStack {
                     Text("Total: ")
                         .font(.title)
-                    Text(cartStore.total, format: .currency(code: "USD"))
+                    Text(cart.total, format: .currency(code: "USD"))
                         .font(.title)
                         .bold()
                 }
                 
                 Button(action: {
-                    
+                    proceedToCheckout = true
                 },
                        label: {
-                    Text("Proceed to checkout ^[(\(cartStore.itemsCount) Item](inflect: true))")
+                    Text("Proceed to checkout ^[(\(cart.itemsCount) Item](inflect: true))")
                         .bold()
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -44,6 +47,11 @@ struct CartScreen: View {
             }
         }.task {
             try? await cartStore.loadCart()
+        }
+        .navigationDestination(isPresented: $proceedToCheckout) {
+            if let cart = cartStore.cart {
+                CheckoutScreen(cart: cart)
+            }
         }
     }
 }
