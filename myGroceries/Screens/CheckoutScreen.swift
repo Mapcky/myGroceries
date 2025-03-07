@@ -6,13 +6,22 @@
 //
 
 import SwiftUI
+import StripePaymentSheet
 
 struct CheckoutScreen: View {
     // MARK: - PROPERTIES
     
     let cart: Cart
     
+    @Environment(\.paymentController) private var paymentController
     @Environment(UserStore.self) private var userStore
+    @State private var paymentSheet: PaymentSheet?
+    
+    // MARK: - FUNCTIONS
+    
+    private func paymentCompletion(result: PaymentSheetResult) {
+        print(result)
+    }
     
     // MARK: - BODY
     var body: some View {
@@ -45,7 +54,30 @@ struct CheckoutScreen: View {
             ForEach(cart.cartItems) { item in
                 CartItemView(cartItem: item)
             }
+            
+            if let paymentSheet {
+                PaymentSheet.PaymentButton(paymentSheet: paymentSheet, onCompletion: paymentCompletion) {
+                    Text("Place your order")
+                        .bold()
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(.green)
+                        .foregroundStyle(.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                        .padding()
+                        .buttonStyle(.borderless)
+                    
+                }
+            }
+            
         }//: LIST
+        .task {
+            do {
+                paymentSheet = try await paymentController.preparePaymentSheet(for: cart)
+            } catch {
+                print(error)
+            }
+        }
     }
 }
 
@@ -55,4 +87,5 @@ struct CheckoutScreen: View {
     }
     .environment(UserStore(httpClient: .development))
     .environment(CartStore(httpClient: .development))
+    .environment(\.paymentController, PaymentController(httpClient: .development))
 }

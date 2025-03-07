@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+@preconcurrency import Stripe
 
 @main
 struct myGroceriesApp: App {
@@ -14,8 +15,13 @@ struct myGroceriesApp: App {
     @State private var productStore = ProductStore(httpClient: HTTPClient())
     @State private var cartStore = CartStore(httpClient: HTTPClient())
     @State private var userStore = UserStore(httpClient: HTTPClient())
+    @State private var paymentController = PaymentController(httpClient: HTTPClient())
     
     @AppStorage("userId") private var userId: String?
+    
+    init() {
+        StripeAPI.defaultPublishableKey = ProcessInfo.processInfo.environment["STRIPE_PUBLISHABLE_KEY"] ?? ""
+    }
     
     // MARK: - FUNCTIONS
     private func loadUserInfoAndCart() async {
@@ -35,6 +41,7 @@ struct myGroceriesApp: App {
                 .environment(productStore)
                 .environment(cartStore)
                 .environment(userStore)
+                .environment(\.paymentController, paymentController)
                 .environment(\.uploaderDownloader, UploaderDownloader(httpClient: HTTPClient()))
                 .task(id: userId) {
                     if userId != nil {
