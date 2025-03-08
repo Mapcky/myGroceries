@@ -216,3 +216,8 @@ struct CreatePaymentIntentResponse: Codable {
         case customerEphemeralKeySecret = "ephemeralKey"
     }
 }
+
+struct SaveOrderResponse: Codable {
+    let success: Bool
+    let message: String?
+}
